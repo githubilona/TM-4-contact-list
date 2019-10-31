@@ -15,12 +15,14 @@ import java.util.List;
 
 public class StudentsListActivity extends AppCompatActivity {
     ListView listView;
-    List<String> students;
-    ArrayAdapter<String> adapter;
+//    List<String> students;
+//    ArrayAdapter<String> adapter;
+    List<Student> students;
+    StudentsAdapter adapter;
     int index = 0;
 
 
-    public void addStudent(String student) {
+    public void addStudent(Student student) {
         students.add(student);
         index++;
         adapter.notifyDataSetChanged();
@@ -31,10 +33,11 @@ public class StudentsListActivity extends AppCompatActivity {
                                     Intent data) {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
+               // data.getOb
                 CharSequence result = data.getCharSequenceExtra("result");
                 //Obsługa rezultatów które otrzymaliśmy z wywołanej aktywności
                 System.out.println("RESULT )))))))))))))))))))))" + result);
-                addStudent(result + "");
+                //addStudent(result + "");
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //W przpyapku otrzymania błędnych rezultatów
@@ -55,8 +58,13 @@ public class StudentsListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         students = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
+       // adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
+        adapter = new StudentsAdapter(this,students);
         listView.setAdapter(adapter);
+
+        students.add(new Student("Contact 1 ", 33354683));
+        students.add(new Student("Contact 2 ", 67656783));
+        students.add(new Student("Contact 3 ", 96566783));
 
     }
 }

@@ -31,6 +31,8 @@ public class AddStudentActivity extends AppCompatActivity {
                 // Potrzebujemy tylko imienia
                 String[] projection =
                         {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+                String[] phone =
+                        {ContactsContract.CommonDataKinds.Phone.NUMBER};
                 // Powinniśmy to robić w oddzielnym wątku bo operacje z użyciem kursora
                 // mogą być czasochłonne.Można wykorzystać klasę CursorLoader.
                 Cursor cursor = getContentResolver()
