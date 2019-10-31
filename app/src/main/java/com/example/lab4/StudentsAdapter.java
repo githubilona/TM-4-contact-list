@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.lab4.models.Student;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +41,13 @@ public class StudentsAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View row = inflater.inflate(R.layout.student_list_item, null);
-        TextView studentName =
-                (TextView) row.findViewById(R.id.studentNameTextView);
+        TextView studentName = (TextView) row.findViewById(R.id.studentNameTextView);
+        TextView studentSurname = (TextView) row.findViewById(R.id.studentSurnameTextView);
+
+        Student student = students.get(i);
+        studentName.setText(student.getName());
+        studentSurname.setText(student.getPhone() + "");
+
         return row;
     }
 }

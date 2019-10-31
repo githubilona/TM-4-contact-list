@@ -1,4 +1,4 @@
-package com.example.lab4;
+package com.example.lab4.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,19 +10,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.lab4.R;
+import com.example.lab4.models.Student;
+import com.example.lab4.StudentsAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsListActivity extends AppCompatActivity {
     ListView listView;
-//    List<String> students;
-//    ArrayAdapter<String> adapter;
-    List<Student> students;
-    StudentsAdapter adapter;
+    List<String> students;
+    ArrayAdapter<String> adapter;
+  //  List<Student> students;
+  // StudentsAdapter adapter;
     int index = 0;
 
 
-    public void addStudent(Student student) {
+    public void addStudent(String student) {
         students.add(student);
         index++;
         adapter.notifyDataSetChanged();
@@ -35,9 +39,10 @@ public class StudentsListActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                // data.getOb
                 CharSequence result = data.getCharSequenceExtra("result");
-                //Obsługa rezultatów które otrzymaliśmy z wywołanej aktywności
+                // Obsługa rezultatów które otrzymaliśmy z wywołanej aktywności
                 System.out.println("RESULT )))))))))))))))))))))" + result);
-                //addStudent(result + "");
+                addStudent(result + "");
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //W przpyapku otrzymania błędnych rezultatów
@@ -58,13 +63,18 @@ public class StudentsListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         students = new ArrayList<>();
-       // adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
-        adapter = new StudentsAdapter(this,students);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
+        //adapter = new StudentsAdapter(this,students);
         listView.setAdapter(adapter);
 
-        students.add(new Student("Contact 1 ", 33354683));
-        students.add(new Student("Contact 2 ", 67656783));
-        students.add(new Student("Contact 3 ", 96566783));
+        students.add("Student 1");
+        students.add("Student 2");
+        students.add("Student 3");
+
+
+//        students.add(new Student("Contact 1 ", 33354683));
+//        students.add(new Student("Contact 2 ", 67656783));
+//        students.add(new Student("Contact 3 ", 96566783));
 
     }
 }

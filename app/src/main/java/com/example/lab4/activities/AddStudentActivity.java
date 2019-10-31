@@ -1,4 +1,4 @@
-package com.example.lab4;
+package com.example.lab4.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.lab4.R;
 
 public class AddStudentActivity extends AppCompatActivity {
 
@@ -43,12 +45,16 @@ public class AddStudentActivity extends AppCompatActivity {
                 int column =
                         cursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME);
                 String displayName = cursor.getString(column);
-                TextView tv = (TextView) findViewById(R.id.nameEditText);
-                tv.setText(displayName);
+                TextView nameEditText = (TextView) findViewById(R.id.nameEditText);
+                TextView phoneEditText = findViewById(R.id.phoneEditText);
+
+                nameEditText.setText(displayName);
+              // phoneEditText.setText((CharSequence) phoneEditText);
+
             }
         }
     }
-        public void onFinishAddClick(View view){
+    public void onFinishAddClick(View view){
         TextView tv = findViewById(R.id.nameEditText);
         Intent returnIntent = getIntent();
         returnIntent.putExtra("result", tv.getText());

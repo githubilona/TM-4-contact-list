@@ -1,10 +1,12 @@
-package com.example.lab4;
+package com.example.lab4.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.lab4.R;
 
 public class MainActivity extends AppCompatActivity {
 
