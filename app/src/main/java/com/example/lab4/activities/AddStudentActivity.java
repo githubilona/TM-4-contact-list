@@ -15,11 +15,6 @@ import android.widget.TextView;
 
 import com.example.lab4.R;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
-import static android.provider.Settings.NameValueTable.NAME;
-
 public class AddStudentActivity extends AppCompatActivity {
 
     TextView nameEditText;
@@ -30,15 +25,7 @@ public class AddStudentActivity extends AppCompatActivity {
         Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
         pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
         startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
-
     }
-//    void calContctPickerFnc()
-//    {
-//        Intent calContctPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-//        calContctPickerIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-//        startActivityForResult(calContctPickerIntent, 1);
-//    }
-
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
@@ -58,6 +45,8 @@ public class AddStudentActivity extends AppCompatActivity {
 
                             Log.i("Names", ContctNamVar);
                             nameEditText.setText(ContctNamVar);
+                            phoneEditText.setText(ContctNamVar);
+
                             if (Integer.parseInt(contctCursorVar.getString(contctCursorVar.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                                 // Query phone here. Covered next
                                 String ContctMobVar = contctCursorVar.getString(contctCursorVar.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
@@ -109,36 +98,19 @@ public class AddStudentActivity extends AppCompatActivity {
 //           }
 //        }
 //    }
-    private void getNameNumber(){
-        ContentResolver cr = getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
-                null, null, null);
-        if (cur.getCount() > 0) {
-            while (cur.moveToNext()) {
-                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                Log.i("Names", name);
-                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0)
-                {
-                    // Query phone here. Covered next
-                    Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,null, null);
-                    while (phones.moveToNext()) {
-                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        Log.i("Number", phoneNumber);
-
-                    }
-                    phones.close();
-                }
-
-            }
-        }
-    }
     public void onFinishAddClick(View view){
         Intent returnIntent = getIntent();
-        returnIntent.putExtra("resultName", nameEditText.getText());
-        returnIntent.putExtra("resultPhone", phoneEditText.getText());
+        CharSequence name = nameEditText.getText();
+        CharSequence phone = phoneEditText.getText();
+        returnIntent.putExtra("resultName",name );
+        returnIntent.putExtra("resultPhone",phone);
 
-        setResult(Activity.RESULT_OK, returnIntent);
+        if(name.toString().equals("") || phone.toString().equals("")){
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+        }else{
+            setResult(Activity.RESULT_OK, returnIntent);
+        }
+
         finish();
     }
     @Override
@@ -148,9 +120,6 @@ public class AddStudentActivity extends AppCompatActivity {
 
         nameEditText= findViewById(R.id.nameEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
-//        nameEditText.requestFocus(0);
-
-
     }
 
 }

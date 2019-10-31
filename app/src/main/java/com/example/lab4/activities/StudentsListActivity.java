@@ -56,7 +56,7 @@ public class StudentsListActivity extends AppCompatActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // W przpyapku otrzymania błędnych rezultatów
-                Toast.makeText(this, "Wrong result!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Name and phone can't be empty!", Toast.LENGTH_LONG).show();
             }
         }
     }
