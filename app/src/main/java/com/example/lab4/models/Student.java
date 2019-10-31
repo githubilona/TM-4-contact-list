@@ -2,12 +2,12 @@ package com.example.lab4.models;
 
 public class Student {
     private String name;
-    private int phone;
+    private String phone;
 
     public Student() {
     }
 
-    public Student(String name, int phone) {
+    public Student(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
@@ -20,11 +20,11 @@ public class Student {
         this.name = name;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

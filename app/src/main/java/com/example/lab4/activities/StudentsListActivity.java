@@ -19,14 +19,20 @@ import java.util.List;
 
 public class StudentsListActivity extends AppCompatActivity {
     ListView listView;
-    List<String> students;
-    ArrayAdapter<String> adapter;
-  //  List<Student> students;
-  // StudentsAdapter adapter;
+//    List<String> students;
+//    ArrayAdapter<String> adapter;
+    List<Student> students;
+   StudentsAdapter adapter;
     int index = 0;
 
+//
+//    public void addStudent(String student) {
+//        students.add(student);
+//        index++;
+//        adapter.notifyDataSetChanged();
+//    }
 
-    public void addStudent(String student) {
+    public void addStudent(Student student) {
         students.add(student);
         index++;
         adapter.notifyDataSetChanged();
@@ -38,14 +44,18 @@ public class StudentsListActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                // data.getOb
-                CharSequence result = data.getCharSequenceExtra("result");
+                CharSequence resultName = data.getCharSequenceExtra("resultName");
+                CharSequence resultPhone = data.getCharSequenceExtra("resultPhone");
                 // Obsługa rezultatów które otrzymaliśmy z wywołanej aktywności
-                System.out.println("RESULT )))))))))))))))))))))" + result);
-                addStudent(result + "");
+                System.out.println("RESULT NAME)))))))))))))))))))))" + resultName);
+                System.out.println("RESULT PHONE)))))))))))))))))))))" + resultPhone);
+
+//                addStudent(resultName + " " + resultPhone);
+                addStudent(new Student(resultName+"", resultPhone+""));
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //W przpyapku otrzymania błędnych rezultatów
+                // W przpyapku otrzymania błędnych rezultatów
                 Toast.makeText(this, "Wrong result!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -63,18 +73,17 @@ public class StudentsListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         students = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
-        //adapter = new StudentsAdapter(this,students);
+        //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
+        adapter = new StudentsAdapter(this,students);
         listView.setAdapter(adapter);
 
-        students.add("Student 1");
-        students.add("Student 2");
-        students.add("Student 3");
+//        students.add("Student 1");
+//        students.add("Student 2");
+//        students.add("Student 3");
 
-
-//        students.add(new Student("Contact 1 ", 33354683));
-//        students.add(new Student("Contact 2 ", 67656783));
-//        students.add(new Student("Contact 3 ", 96566783));
+        students.add(new Student("Contact 1 ", "343-545-354"));
+        students.add(new Student("Contact 2 ", "676-567-863"));
+        students.add(new Student("Contact 3 ", "965-667-863"));
 
     }
 }

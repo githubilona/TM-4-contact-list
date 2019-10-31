@@ -63,6 +63,8 @@ public class AddStudentActivity extends AppCompatActivity {
                                 String ContctMobVar = contctCursorVar.getString(contctCursorVar.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 Log.i("Number", ContctMobVar);
                                 phoneEditText.setText(ContctMobVar);
+
+
                             }
                         }
                     }
@@ -123,6 +125,7 @@ public class AddStudentActivity extends AppCompatActivity {
                     while (phones.moveToNext()) {
                         String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                         Log.i("Number", phoneNumber);
+
                     }
                     phones.close();
                 }
@@ -131,9 +134,9 @@ public class AddStudentActivity extends AppCompatActivity {
         }
     }
     public void onFinishAddClick(View view){
-        TextView tv = findViewById(R.id.nameEditText);
         Intent returnIntent = getIntent();
-        returnIntent.putExtra("result", tv.getText());
+        returnIntent.putExtra("resultName", nameEditText.getText());
+        returnIntent.putExtra("resultPhone", phoneEditText.getText());
 
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
@@ -145,6 +148,9 @@ public class AddStudentActivity extends AppCompatActivity {
 
         nameEditText= findViewById(R.id.nameEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
+//        nameEditText.requestFocus(0);
+
+
     }
 
 }
