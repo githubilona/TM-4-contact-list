@@ -1,11 +1,11 @@
-package jastrzebska.com.example.lab3;
+package com.example.lab4;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseBooleanArray;
 
 public class SparseBooleanArrayParcelable extends SparseBooleanArray implements Parcelable {
-    public static Parcelable.Creator<SparseBooleanArrayParcelable> CREATOR = new Parcelable.Creator<SparseBooleanArrayParcelable>() {
+    public static Creator<SparseBooleanArrayParcelable> CREATOR = new Creator<SparseBooleanArrayParcelable>() {
         @Override
         public SparseBooleanArrayParcelable createFromParcel(Parcel source) {
             SparseBooleanArrayParcelable read = new SparseBooleanArrayParcelable();

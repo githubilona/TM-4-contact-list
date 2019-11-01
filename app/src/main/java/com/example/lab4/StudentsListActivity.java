@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StudentsListActivity extends AppCompatActivity {
@@ -29,6 +33,7 @@ public class StudentsListActivity extends AppCompatActivity {
     SparseBooleanArray checkedItemsPositions;
     int itemCount;
     LayoutType layoutType;
+    boolean [] checked;
 
     public void addStudent(Student student) {
         students.add(student);
@@ -39,9 +44,10 @@ public class StudentsListActivity extends AppCompatActivity {
     private void fillArray() {
         checkedItemsPositions = listView.getCheckedItemPositions();
         itemCount = listView.getCount();
+        checked=adapter.getChecked();
 
         for (int i = 0; i < itemCount; i++) {
-            checkedItemsPositions.put(i, adapter.getChecked()[i]);
+            checkedItemsPositions.put(i, checked[i]);
         }
     }
 
@@ -50,7 +56,7 @@ public class StudentsListActivity extends AppCompatActivity {
 
         for (int i = itemCount - 1; i >= 0; i--) {
             if (checkedItemsPositions.get(i)) {
-                adapter.getChecked()[i] = false;
+                checked[i] = false;
                 adapter.remove(i);
             }
         }
@@ -120,6 +126,91 @@ public class StudentsListActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+      //  savedInstanceState.putStringArrayList("MyStrings", (ArrayList<String>) myStrings);
+        savedInstanceState.putParcelableArrayList("Students", (ArrayList<? extends Parcelable>) students);
+        //savedInstanceState.putParcelableArrayList("Students", (ArrayList<? extends Parcelable>) new ArrayList<Student>(students));
+        savedInstanceState.putInt("Index", index);
+        savedInstanceState.putSerializable("LayoutType", layoutType);
+
+
+        checkedItemsPositions = listView.getCheckedItemPositions();
+        itemCount = listView.getCount();
+
+        if (checkedItemsPositions != null) {
+
+            fillArray();
+            savedInstanceState.putParcelable("CheckedItemPositions", new SparseBooleanArrayParcelable(checkedItemsPositions));
+            savedInstanceState.putInt("ItemCount", itemCount);
+            savedInstanceState.putBooleanArray("Checked", checked);
+
+            System.out.println("-5-6-6--7--7-8--88-9-9-----" +Arrays.toString(checked) );
+            System.out.println("--4-66-456-57---7567-567--57-567-----" +checkedItemsPositions.toString() );
+        }
+
+
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+
+        //myStrings = savedInstanceState.getStringArrayList("MyStrings");
+
+        students = savedInstanceState.getParcelableArrayList("Students");
+        index = savedInstanceState.getInt("Index");
+        layoutType = (LayoutType) savedInstanceState.getSerializable("LayoutType");
+        checkedItemsPositions = (SparseBooleanArray) savedInstanceState.getParcelable("CheckedItemPositions");
+        itemCount = savedInstanceState.getInt("ItemCount");
+        checked = savedInstanceState.getBooleanArray("Checked");
+       // fillArray();
+
+        System.out.println("-----------------" +Arrays.toString(checked) );
+        System.out.println("-----------------" +checkedItemsPositions.toString() );
+
+        System.out.println("items count " + itemCount);
+
+        if (layoutType.equals(LayoutType.SIMPLE_LAYOUT)) {
+            setSimpleListView();
+        }
+
+        if (layoutType.equals(LayoutType.MULTIPLE_CHOICE_LAYOUT)) {
+
+            System.out.println("2-----------------" +Arrays.toString(checked) );
+            System.out.println("2-----------------" +checkedItemsPositions.toString() );
+            //fillArray();
+            setMultipleChoiceView();
+
+            checkElements();
+
+            System.out.println("-----------------" +Arrays.toString(checked) );
+            System.out.println("-----------------" +checkedItemsPositions.toString() );
+        }
+
+    }
+
+    public void checkElements() {
+     //   fillArray();
+        List<CheckBox> checkBoxes=adapter.getCheckBoxes();
+        //System.out.println("-r-394uto83yghiu453t8-----------------" + checkBoxes.toString());
+         System.out.println("item count   check   "+ itemCount);
+        System.out.println("checkedItemsPositions" + checkedItemsPositions.toString());
+        System.out.println("boolena "+ Arrays.toString(checked));
+        for (int i = itemCount - 1; i >= 0; i--) {
+            if (checkedItemsPositions.get(i)) {
+                Log.i("checked ", "@@@@ " + i);
+                listView.setItemChecked(i,true);
+
+            }
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +225,8 @@ public class StudentsListActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         students = new ArrayList<>();
         setSimpleListView();
+       // checked= adapter.getChecked();
+
 
         students.add(new Student("Contact 1 ", "343-545-354"));
         students.add(new Student("Contact 2 ", "676-567-863"));

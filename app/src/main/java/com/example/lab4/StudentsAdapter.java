@@ -6,27 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StudentsAdapter extends BaseAdapter {
+public class StudentsAdapter extends BaseAdapter implements Checkable {
 
     private Context context;
     int layout;
     List<Student> students;
     boolean[] checked;
+    List <CheckBox> checkBoxes;
+    private boolean isChecked = false;
 
     public StudentsAdapter(Context context, int layout, List<Student> students) {
         this.context = context;
         this.layout = layout;
         this.students = students;
         checked = new boolean[students.size()];
-        for(boolean c : checked){
-            c = false;
-        }
     }
 
     @Override
@@ -56,10 +57,13 @@ public class StudentsAdapter extends BaseAdapter {
         studentSurname.setText(student.getPhone() + "");
 
         if(layout==R.layout.student_list_item_multiple_choice){
+            checkBoxes = new ArrayList<>();
             CheckBox checkBox = row.findViewById(R.id.checkBox);
         checkBox.setTag(Integer.valueOf(i)); // set the tag so we can identify the correct row in the listener
         checkBox.setChecked(checked[i]); // set the status as we stored it
         checkBox.setOnCheckedChangeListener(mListener); // set the listener
+            checkBoxes.add(checkBox);
+
        }
 
         return row;
@@ -72,13 +76,35 @@ public class StudentsAdapter extends BaseAdapter {
             System.out.println("listiner "+ Arrays.toString(checked));
         }
     };
+
     public void remove(int position) {
-        System.err.println("adapter remove i "+ position);
         students.remove(students.get(position));
-      //  kimdenlist.remove(kimdenlist.get(position));
     }
 
     public boolean[] getChecked() {
         return checked;
     }
+
+    public List<CheckBox> getCheckBoxes() {
+        return checkBoxes;
+    }
+//    public void setChecked(int i){
+//        checkBoxes.get(i).setChecked(true);
+//    }
+
+    @Override
+    public void setChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    @Override
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    @Override
+    public void toggle() {
+        this.isChecked = !this.isChecked;
+    }
+
 }
