@@ -1,4 +1,4 @@
-package com.example.lab4.models;
+package com.example.lab4;
 
 public class Student {
     private String name;
